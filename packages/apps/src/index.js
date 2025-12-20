@@ -1,6 +1,8 @@
 // 共享类型定义（在JS中可以用JSDoc注释）
 
 export * from './index2.js'
+export * from './http/c-request-axios-imp.js'
+// export * from './http/d-request-bus.js'
 
 /**
  * @typedef {Object} ApiResponse

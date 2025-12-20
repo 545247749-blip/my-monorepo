@@ -8,7 +8,11 @@ importers:
 
   .: {}
 
-  packages/apps: {}
+  packages/apps:
+    dependencies:
+      axios:
+        specifier: ^1.13.2
+        version: 1.13.2
 
   packages/server:
     dependencies:

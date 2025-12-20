@@ -6,13 +6,15 @@
            @click.stop="toPath(item)">
         <div class="name"
              :class="{'is-active': item.path === route.path}">
-          {{ item.path }}
+          ({{ item.meta.sort }}) {{ item.name }}
         </div>
 
         <div class="routes-list2">
           <div v-for="(item2, index2) of item.children || []" :key="index2" class="route-item"
                @click.stop="toPath(item2)">
-            <div class="name">{{ item2.path }}</div>
+            <div class="name">
+              ({{ item.meta.sort }}) {{ item2.path }}
+            </div>
           </div>
         </div>
       </div>
@@ -24,7 +26,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup> 
 import { RouterLink, RouterView } from 'vue-router'
 import { computed, reactive, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'

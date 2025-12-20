@@ -38,7 +38,9 @@ app.use('/', routes)
 
 // 健康检查路由
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK' })
+  setTimeout(() => {
+    res.status(200).json({ status: 'OK' })
+  }, 5000)
 })
 
 

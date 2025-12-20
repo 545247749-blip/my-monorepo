@@ -53,7 +53,8 @@ function buildRouteHierarchy (pages) {
       const currentSegments = [...parentSegments, segment]
       const path = '/' + currentSegments.join('/')
       let comPath = '../views' + path + '/index.vue'
-      const name = currentSegments.map(s => s.toLowerCase()).join('-')
+      // const name = currentSegments.map(s => s.toLowerCase()).join('-')
+      const name = currentSegments.join('-')
       return {
         path,
         name,
