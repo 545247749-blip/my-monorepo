@@ -8,6 +8,8 @@
 </template>
 
 <script setup>
+import { uploadFile } from '@my-monorepo/apps'
+
 function upload () {
   let el = document.querySelector('.file-input')
   let formData = new FormData()
@@ -17,9 +19,8 @@ function upload () {
     return
   }
   formData.append('file', file)
-  fetch('/api/upload/upload', {
-    method: 'post',
-    body: formData,
+  uploadFile(formData).then(res => {
+    console.log(`上传成功：`, res)
   })
 }
 

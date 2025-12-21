@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from 'multer'
-const router2 = express.Router()
+const router = express.Router()
  
 const storage = multer.diskStorage({
   destination: 'uploads/',
@@ -15,13 +15,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-router2.post('/upload', upload.single('file'), (req, res) => {
-  res.json({
-    code: '200',
-    data: '上传成功',
-    message: 'success',
-  })
+router.post('/upload', upload.single('file'), (req, res) => {
+  setTimeout(() => {
+    res.json({
+      code: '200',
+      data: '上传成功',
+      message: 'success',
+    })
+  }, 1000)
 })
 
 
-export default router2
+export default router

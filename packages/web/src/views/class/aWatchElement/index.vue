@@ -1,6 +1,5 @@
 <template>
   <div class="watch-element">
-    {{ formatDate2(new Date()) }}
     <div ref="scrollDiv" class="scroll-out">
       <div class="scroll-main">
         <div v-for="(value, key) in react" :key="key">
@@ -14,7 +13,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, reactive, watch, shallowRef } from 'vue'
 import { WatchElement } from './watchElement.js'
-import { formatDate2 } from '@my-monorepo/apps'
 
 let react = shallowRef({ })
 let scrollDiv = ref()

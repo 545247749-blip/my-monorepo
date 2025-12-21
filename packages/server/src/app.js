@@ -4,15 +4,16 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import compression from 'compression'
 import routes from './routes/index.js'
+import multer from 'multer'
 
 const app = express()
-
+const upload = multer()
 app.use('/uploads', express.static('uploads'))
 
 app.use(cors())
 // 配置特定来源
 // app.use(cors({
-//   origin: 'https://example.com',  
+//   origin: 'https://example.com',
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 //   allowedHeaders: ['Content-Type', 'Authorization']
 // }));
@@ -39,8 +40,15 @@ app.use('/', routes)
 // 健康检查路由
 app.get('/health', (req, res) => {
   setTimeout(() => {
-    res.status(200).json({ status: 'OK' })
-  }, 5000)
+    res.status(200).json({ code: '200', status: 'OK', message: '请求成功', query: req.query })
+  }, 3000)
+})
+
+// 健康检查路由
+app.post('/postBack', upload.none(), (req, res) => {
+  setTimeout(() => {
+    res.status(200).json({ code: '200', status: 'OK', message: '请求成功', data: req.body })
+  }, 3000)
 })
 
 
