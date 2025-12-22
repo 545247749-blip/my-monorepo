@@ -44,6 +44,18 @@ export default class TimeZoneClass {
   }
 
   static dateTimeFormate (value, offset) {
+    let date
+    if (typeof value === 'number') {
+      date = value
+    }
+    else if (typeof value === 'string') {
+      date = value.split(/(\D)/).filter(it => !isNaN(parseFloat(it)) && isFinite(it))
+      offset = offset.replace('GMT', '').replace(' ', '')
+      date = `${date[0]}-${date[1]}-${date[2]}T${date[3] || '00'}:${date[4] || '00'}:${date[4] || '00'}${offset || ''}`
+    }
+    else {
+      throw new Error('时间有问题')
+    }
     const formatter = new Intl.DateTimeFormat('en-US', {
       timeZone: this.data.timeZone,
       year: 'numeric',
@@ -55,12 +67,12 @@ export default class TimeZoneClass {
       second: '2-digit',
       timeZoneName: 'long',
     })
-    const p = !isNaN(parseFloat(value)) && isFinite(value) ? value : `${value} ${offset}`
-    const date = new Date(p)
-    return formatter.formatToParts(date).reduce((res, item) => {
-      res[item.type] = item.value
-      return res
-    }, {})
+    let time = new Date(date).getTime()
+    const obj = { time }
+    formatter.formatToParts(time).forEach(item => {
+      obj[item.type] = item.value
+    })
+    return obj
   }
 
   static isSummer (formate) {

@@ -25,6 +25,7 @@ watch(() => date.value, (val) => {
   dataMy.value = data
   setTimeout(() => {
     date.value = data.output.value
+    console.log(data.output)
   })
 })
 </script>
