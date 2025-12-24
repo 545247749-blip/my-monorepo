@@ -17,6 +17,8 @@
 
     <el-button @click="coreapi">core请求1</el-button>
     <el-button @click="coreapi2">core请求2</el-button>
+
+    <hr />
     
   </div>
 </template>

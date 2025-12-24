@@ -3,12 +3,28 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import Markdown from 'vite-plugin-md'
+import anchor from 'markdown-it-anchor'
+import Prism from 'markdown-it-prism'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   // base: '/cx-colorComputing',
   plugins: [
-    vue(),
+    vue({
+      include: [/\.vue$/, /\.md$/], // 允许处理 .md 文件
+    }),
+    Markdown({
+      markdownItOptions: {
+        html: true,
+        linkify: true,
+        typographer: true,
+      },
+      markdownItSetup (md) {
+        md.use(anchor)
+        md.use(Prism)
+      },
+    }),
   ],
   resolve: {
     alias: {
