@@ -10,6 +10,6 @@ import { defineAsyncComponent } from 'vue'
 const content = defineAsyncComponent(() => import(`./ceshi.md`))
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 
 </style>
