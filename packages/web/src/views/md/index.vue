@@ -13,11 +13,11 @@
         <div v-for="(item, index) of routes" :key="index" class="nav-group">
           <div class="nav-item"
                :class="{ 'active': item.path === route.path }"
-               @click.stop="toPath(item)">
+               @click.stop="toPath(item, index)">
             <div class="nav-main">
               <span class="nav-icon">📄</span>
-              <span class="nav-name">{{ item.name }}</span>
-              <span v-if="item.children" class="nav-arrow" @click.stop="toggleExpand(index)">
+              <span class="nav-name">{{ item.meta.description }}</span>
+              <span v-if="item.children" class="nav-arrow">
                 {{ expandedItems.includes(index) ? '▼' : '▶' }}
               </span>
             </div>
@@ -33,7 +33,7 @@
                    :class="{ 'active': item2.path === route.path }"
                    @click.stop="toPath(item2)">
                 <span class="sub-icon">•</span>
-                <span class="sub-name">{{ item2.name || item2.path }}</span>
+                <span class="sub-name">{{ item2.name.split('-').slice(-1)[0] }}</span>
                 <span v-if="item.meta.sort" class="sub-sort">#{{ item.meta.sort }}</span>
               </div>
             </div>
@@ -102,15 +102,19 @@ const currentDocName = computed(() => {
   return route.meta?.title || route.name || 'Document'
 })
 
-function toPath (item) {
-  router.push({
-    name: item.name,
-  })
+function toPath (item, index) {
+  if (item.children && item.children.length) {
+    toggleExpand(index)
+  }
+  else {
+    router.push({
+      name: item.name,
+    })
+  }
 }
 
 // 点击父项时切换展开状态
 function toggleExpand (index) {
-  console.log(index, 'index')
   const pos = expandedItems.value.indexOf(index)
   if (pos > -1) {
     expandedItems.value.splice(pos, 1)

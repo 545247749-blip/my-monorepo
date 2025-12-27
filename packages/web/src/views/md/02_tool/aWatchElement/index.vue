@@ -35,7 +35,7 @@ onBeforeUnmount(() => {
 <style scoped lang="less">
 .watch-element{
   width: 100%;
-  height: 100%;
+  height: 800px;
   border: 1px solid red;
   overflow: auto;
   .scroll-out{

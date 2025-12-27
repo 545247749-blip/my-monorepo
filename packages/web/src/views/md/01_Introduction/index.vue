@@ -1,28 +1,16 @@
 <template>
-  <div class="container">
-    <div class="main">
-      <div class="main-1"></div>
-    </div>
+  <div class="md-item">
+    <component :is="document" />
   </div>
 </template>
 
 <script setup>
-
+import { defineAsyncComponent } from 'vue'
+const document = defineAsyncComponent(() => import('./document.md'))
 </script>
 
 <style scoped lang="scss">
 .container {
-  border: 1px solid black;
-  .main{
-    background-color: red;
-    height: 300px;
-    margin-top: 100px;
-    .main-1{
-      background-color: blue;
-      height: 100px;
-      margin-top: 50px;
-      width: 50%;
-    }
-  }
+
 }
 </style>

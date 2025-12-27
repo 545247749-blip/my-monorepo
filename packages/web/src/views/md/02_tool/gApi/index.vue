@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="gApi">
     <el-button @click="api">get请求1</el-button>
     <el-button @click="api2">get请求2</el-button>
 
@@ -19,6 +19,8 @@
     <el-button @click="coreapi2">core请求2</el-button>
 
     <hr />
+
+    <el-button @click="evtBtn1">事件1</el-button>
     
   </div>
 </template>
@@ -85,8 +87,16 @@ function coreapi2 () {
     console.log(res, '222')
   })
 }
+
+function evtBtn1 (e) {
+  console.log(e.pageX)
+  console.log(e.clientX)
+}
 </script>
 
-<style scoped lang="less">
-
+<style scoped lang="scss">
+.gApi{
+  position: relative;
+  perspective: 20px;
+}
 </style>
