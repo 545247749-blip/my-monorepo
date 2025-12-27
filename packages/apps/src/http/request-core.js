@@ -65,7 +65,8 @@ class RequestPool {
       .catch(error => {
         cacheEntry.error = error
         cacheEntry.response = null
-      }).finally(() => {
+      })
+      .finally(() => {
         cacheEntry.promise = null
       })
     return cacheEntry.promise
