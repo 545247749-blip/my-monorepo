@@ -3,7 +3,9 @@ import { requestPool } from './request-core.js'
 
 const contentUrl = process.env.NODE_ENV === 'development' ? '/api' : ''
 
-export const requestor = (url) => requestPool.get(contentUrl + url, {
+export const requestor = (url) => requestPool({
+  method: 'get',
+  url: contentUrl + url,
   debounce: true,
   cacheTime: 0,
   retryDelay: 200,

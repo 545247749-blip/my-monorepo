@@ -1,17 +1,6 @@
 import http from './http.js'
 
 /**
- * 请求配置参数类型定义
- *
- * @typedef {Object} RequestConfig
- * @property {boolean} [debounce=true] - 是否启用防抖，避免重复请求
- * @property {number} [cacheTime=0] - 缓存时间(毫秒)，0表示不缓存
- * @property {number} [retryDelay=0] - 重试延迟时间(毫秒)
- * @property {number} [retryCount=0] - 重试次数
- * @property {boolean} [forceRefresh=false] - 是否强制刷新，忽略缓存
- */
-
-/**
  * 请求池管理器
  *
  * @class RequestPool
@@ -26,43 +15,31 @@ import http from './http.js'
  */
 
 class RequestPool {
-  constructor () {
+  constructor (defaultConfig = {}) {
+    this.defaultConfig = defaultConfig
     this.data = new Map()
-  }
-
-  /**
-   * 发起GET请求
-   *
-   * @param {string} url - 请求URL
-   * @param {RequestConfig} [config={}] - 请求配置
-   * @returns {Promise<any>} 返回请求结果的Promise
-   */
-  get (url, config = {}) {
-    return this._request('get', url, null, config)
-  }
-
-  /**
-   * 发起POST请求
-   *
-   * @param {string} url - 请求URL
-   * @param {any} [data=null] - 请求体数据
-   * @param {RequestConfig} [config={}] - 请求配置
-   * @returns {Promise<any>} 返回请求结果的Promise
-   */
-  post (url, data, config = {}) {
-    return this._request('post', url, data, config)
+    this._request = this._request.bind(this)
   }
 
   // 通用请求方法（内部使用）
-  _request (method, url, data, config = {}) {
-    let {
-      debounce = true,
-      cacheTime = 0,
-      retryDelay = 0,
-      retryCount = 0,
-      forceRefresh = false,
-    } = config
-    const key = this._generateKey(method, url, data, config)
+  /**
+   * @param { string | Object } configOrUrl --
+   * @param { Object } [config] --
+   * */
+  _request (configOrUrl, config = {}) {
+    let finalConfig
+    if (typeof configOrUrl === 'string') {
+      finalConfig = { ...config, url: configOrUrl }
+    }
+    else {
+      finalConfig = { ...configOrUrl }
+    }
+    finalConfig = { ...this.defaultConfig, ...finalConfig }
+    if (finalConfig.method) {
+      finalConfig.method = finalConfig.method.toUpperCase()
+    }
+    let { debounce, cacheTime, retryDelay, retryCount, forceRefresh } = finalConfig
+    const key = this._generateKey(finalConfig)
     if (!this.data.has(key)) {
       this.data.set(key, {
         promise: null,
@@ -81,9 +58,7 @@ class RequestPool {
       return Promise.resolve(cacheEntry.response)
     }
     // 执行请求（带重试逻辑）
-    cacheEntry.promise = this._executeWithRetry(
-      method, url, data, config, retryDelay, retryCount,
-    )
+    cacheEntry.promise = this._requestWithRetry(finalConfig, retryDelay, retryCount)
     // 标记 promise 状态（用于防抖判断）
     cacheEntry.promise
       .then(response => {
@@ -100,16 +75,13 @@ class RequestPool {
     return cacheEntry.promise
   }
 
-  async _executeWithRetry (method, url, data, config, retryDelay, retryCount) {
+  async _requestWithRetry (finalConfig, retryDelay = 0, retryCount = 0) {
     retryCount = retryCount + 1
     while (retryCount > 0) {
       retryCount--
       try {
         const response = await http({
-          ...config,
-          url,
-          method,
-          data,
+          ...finalConfig,
         })
         // 成功则返回，不能和上面的合并
         return response
@@ -131,11 +103,12 @@ class RequestPool {
   }
 
   // 获取key值
-  _generateKey (method, url, data, config = {}) {
+  _generateKey (finalConfig) {
+    let { method, url, params, data } = finalConfig
     const keyData = {
-      m: method.toLowerCase(),
+      m: method,
       u: url,
-      p: config.params || {},
+      p: params || {},
       d: data || null,
     }
     try {
@@ -154,9 +127,64 @@ class RequestPool {
       })
     }
     catch {
-      return `${method}|${url}|${Object.keys(config.params || {}).length}|${data ? 'hasData' : 'noData'}`
+      return `${method}|${url}|${Object.keys(finalConfig.params || {}).length}|${data ? 'hasData' : 'noData'}`
     }
   }
 }
 
-export const requestPool = new RequestPool()
+const methodsWithoutData = ['get', 'delete', 'head', 'options']
+const methodsWithData = ['post', 'put', 'patch']
+
+// 添加不携带请求体的方法（GET, DELETE 等）
+methodsWithoutData.forEach(method => {
+  RequestPool.prototype[method] = function (url, config = {}) {
+    return this._request({
+      ...config,
+      method,
+      url,
+    })
+  }
+})
+
+// 添加携带请求体的方法（POST, PUT, PATCH）
+methodsWithData.forEach(method => {
+  RequestPool.prototype[method] = function (url, data, config = {}) {
+    return this._request({
+      ...config,
+      method,
+      url,
+      data,
+    })
+  }
+})
+
+function createInstance (defaultConfig = {}) {
+  const context = new RequestPool(defaultConfig)
+  const instance = function (configOrUrl, config) {
+    return context._request(configOrUrl, config)
+  }
+  const allMethods = [...methodsWithoutData, ...methodsWithData]
+  allMethods.forEach(method => {
+    instance[method] = context[method].bind(context)
+  })
+  return instance
+}
+
+/**
+ * 请求配置参数类型定义
+ *
+ * @typedef {Object} RequestConfig
+ * @property {boolean} [debounce=true] - 是否启用防抖，避免重复请求
+ * @property {number} [cacheTime=0] - 缓存时间(毫秒)，0表示不缓存
+ * @property {number} [retryDelay=0] - 重试延迟时间(毫秒)
+ * @property {number} [retryCount=0] - 重试次数
+ * @property {boolean} [forceRefresh=false] - 是否强制刷新，忽略缓存
+ */
+
+export const requestPool = createInstance({
+  debounce: true,
+  cacheTime: 0,
+  retryDelay: 0,
+  retryCount: 0,
+  forceRefresh: false,
+})
