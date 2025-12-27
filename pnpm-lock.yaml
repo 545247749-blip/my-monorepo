@@ -74,6 +74,9 @@ importers:
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(vue@3.5.26)
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       vite-plugin-md:
         specifier: ^0.21.5
         version: 0.21.5(@vitejs/plugin-vue@6.0.3(vite@7.3.0(@types/node@25.0.3)(less@4.5.1)(sass@1.97.1))(vue@3.5.26))(happy-dom@8.9.0)(less@4.5.1)(sass@1.97.1)(vite@7.3.0(@types/node@25.0.3)(less@4.5.1)(sass@1.97.1))

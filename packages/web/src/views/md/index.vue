@@ -457,7 +457,7 @@ function toggleExpand (index) {
 }
 
 .content-paper {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   animation: fadeInUp 0.4s ease;
 }
@@ -478,14 +478,13 @@ function toggleExpand (index) {
   min-height: calc(100vh - 200px);
   display: flex;
   flex-direction: column;
-  .markdown-body{
+  perspective: 0;
+  > main{
     background: transparent;
     border: none;
     border-radius: 16px;
     padding: 48px;
     margin: 0;
-    width: 100%;
-    max-width: 1000px;
     flex: 1;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;

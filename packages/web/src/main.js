@@ -1,5 +1,3 @@
-
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -19,5 +17,7 @@ app.use(ElementPlus)
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css'
 app.use(Antd)
+
+import 'prismjs/themes/prism-tomorrow.css'
 
 app.mount('#app')

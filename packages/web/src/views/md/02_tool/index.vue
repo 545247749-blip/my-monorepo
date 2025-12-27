@@ -1,8 +1,8 @@
 <template>
   <div class="md-item">
-    <div class="markdown-body">
+    <main>
       <RouterView />
-    </div>
+    </main>
   </div>
 </template>
 

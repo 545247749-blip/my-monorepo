@@ -1,6 +1,8 @@
 <template>
   <div class="md-item">
-    <component :is="document" />
+    <main>
+      <component :is="document" />
+    </main>
   </div>
 </template>
 

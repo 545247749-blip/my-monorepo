@@ -64,6 +64,5 @@ function buildRouteHierarchy (pages) {
       }
     }).sort((a, b) => a.meta.sort - b.meta.sort)
   }
-  console.log(convertTreeToRoutes(tree))
   return convertTreeToRoutes(tree)
 }
