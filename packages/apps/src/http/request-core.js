@@ -22,10 +22,6 @@ class RequestPool {
   }
 
   // 通用请求方法（内部使用）
-  /**
-   * @param { string | Object } configOrUrl --
-   * @param { Object } [config] --
-   * */
   _request (configOrUrl, config = {}) {
     let finalConfig
     if (typeof configOrUrl === 'string') {
@@ -160,6 +156,11 @@ methodsWithData.forEach(method => {
 
 function createInstance (defaultConfig = {}) {
   const context = new RequestPool(defaultConfig)
+
+  /**
+   * @param { string | Object } configOrUrl
+   * @param { Object } [config]
+   * */
   const instance = function (configOrUrl, config) {
     return context._request(configOrUrl, config)
   }
