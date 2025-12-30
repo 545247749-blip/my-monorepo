@@ -10,13 +10,20 @@ body {
     line-height: 1.6;
 }
 
-ul, ol {
+ul {
     list-style: none;
+}
+
+ol {
+    // list-style: none;
 }
 
 a {
     text-decoration: none;
-    color: inherit;
+    color: #409eff;
+    &:hover{
+        text-decoration: underline;
+    }
 }
 
 i{
@@ -46,7 +53,7 @@ img {
 }
 
 /* 图层 */
-.leayer{
+.layer{
     width: 1200px;
     margin: 0 auto;
 }
