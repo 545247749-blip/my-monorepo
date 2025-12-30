@@ -1,0 +1,65 @@
+/* 原生标签 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+i{
+    font-style: normal;
+}
+
+button{
+    outline: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+/* 浮动 */
+.clearfloat:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.fl{
+    float: left;
+}
+.fl{
+    float: right;
+}
+
+/* 图层 */
+.leayer{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+// 颜色
+.c4{
+
+}
+
+//
+.mt8{
+   margin-top: 8px;
+}
+.mr8{
+    margin-right: 8px;
+}

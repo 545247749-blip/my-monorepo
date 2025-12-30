@@ -6,6 +6,7 @@ import path from 'path'
 import Markdown from 'vite-plugin-md'
 import anchor from 'markdown-it-anchor'
 import Prism from 'markdown-it-prism'
+import container from 'markdown-it-container'
 
 // https://vitejs.dev/config/
 export default defineConfig({

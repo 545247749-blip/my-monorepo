@@ -479,6 +479,7 @@ function toggleExpand (index) {
   display: flex;
   flex-direction: column;
   perspective: 0;
+  word-break: break-word;
   > main{
     background: transparent;
     border: none;

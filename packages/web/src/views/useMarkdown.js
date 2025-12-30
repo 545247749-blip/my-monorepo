@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
+import container from 'markdown-it-container'
 
 export function useDynamicMarkdown (markdownPath, variables = {}) {
   const markdownTemplate = ref(markdownPath)
@@ -8,6 +9,9 @@ export function useDynamicMarkdown (markdownPath, variables = {}) {
 
   // 初始化 markdown-it
   const md = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
     highlight: function (str, lang) {
       if (lang && Prism.languages[lang]) {
         try {
