@@ -12,7 +12,5 @@ const document = defineAsyncComponent(() => import('./document.md'))
 </script>
 
 <style scoped lang="scss">
-.container {
 
-}
 </style>

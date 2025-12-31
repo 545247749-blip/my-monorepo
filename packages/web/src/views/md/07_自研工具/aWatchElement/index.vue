@@ -13,7 +13,7 @@
 
         <div ref="btns" class="btns">
           <el-button>按钮</el-button>
-          <div class="popover" :style="{ top: react.offsetTop + 'px', left: react.offsetLeft + 30 + 'px' }">
+          <div class="popover" :style="{ top: react.top + 30 + 'px', left: react.left + 'px' }">
             dewdewdewd
           </div>
         </div>
@@ -41,9 +41,6 @@ onMounted(() => {
   if (scrollDiv.value && !watcher) {
     watcher = new WatchElement(btns.value, (currentRect, previousRect) => {
       Object.assign(react, { ...currentRect })
-      console.log(btns.value.clientY, 'btns.value.offsetTop')
-      react.offsetTop = btns.value.offsetTop
-      react.offsetLeft = btns.value.offsetLeft
     })
   }
 })

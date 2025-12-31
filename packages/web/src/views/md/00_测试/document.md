@@ -7,7 +7,6 @@ Copy Code
 # 一级标题
 ## 二级标题
 ### 三级标题
-兼容语法（不推荐）：
 markdown
 Copy Code
 一级标题
@@ -33,7 +32,7 @@ Copy Code
 代码块：三个反引号包裹，可指定语言（如 python）
 markdown
 Copy Code
-```python
+```js
 print("Hello, World!")
 text
 Copy Code

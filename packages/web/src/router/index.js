@@ -56,7 +56,7 @@ function buildRouteHierarchy (pages) {
       // const name = currentSegments.map(s => s.toLowerCase()).join('-')
       const name = currentSegments.join('-')
       return {
-        path,
+        path: path.split('/').map(it => encodeURIComponent(it)).join('/'),
         name,
         meta: item.data,
         component: components[comPath],

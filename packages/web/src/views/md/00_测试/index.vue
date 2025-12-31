@@ -8,11 +8,9 @@
 
 <script setup>
 import { defineAsyncComponent } from 'vue'
-const document = defineAsyncComponent(() => import('./document.md'))
+const document = defineAsyncComponent(() => import(`./document.md`))
 </script>
 
 <style scoped lang="scss">
-.container {
 
-}
 </style>

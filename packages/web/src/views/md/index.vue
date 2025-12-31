@@ -16,7 +16,10 @@
                @click.stop="toPath(item, index)">
             <div class="nav-main">
               <span class="nav-icon">📄</span>
-              <span class="nav-name">{{ item.meta.description }}</span>
+              <span class="nav-name">
+                {{ index }})
+                {{ decodeURIComponent(item.path.split('_').slice(-1)[0]) }}
+              </span>
               <span v-if="item.children" class="nav-arrow">
                 {{ expandedItems.includes(index) ? '▼' : '▶' }}
               </span>
@@ -52,7 +55,7 @@
     <main class="content-area">
       <div class="content-header">
         <div class="breadcrumb">
-          <span class="current-doc">📝 {{ currentDocName }}</span>
+          <span class="current-doc">📝 {{ decodeURIComponent(currentDocName) }}</span>
         </div>
         <div class="content-actions">
           <button class="btn-icon" title="Toggle Theme">
@@ -478,7 +481,6 @@ function toggleExpand (index) {
   min-height: calc(100vh - 200px);
   display: flex;
   flex-direction: column;
-  perspective: 0;
   word-break: break-word;
   > main{
     background: transparent;
